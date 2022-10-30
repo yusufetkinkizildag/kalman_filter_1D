@@ -14,19 +14,17 @@ struct KalmanFilter
 
 typedef struct KalmanFilter kalman_filter_t;
 
-double calculate_kalman_gain(double error_in_estimate, double error_in_measurement)
+double calculate_kalman_gain(double const error_in_estimate, double const error_in_measurement)
 {
-    double kalman_gain = error_in_estimate / (error_in_estimate + error_in_measurement);
-    return kalman_gain;
+    return error_in_estimate / (error_in_estimate + error_in_measurement);
 }
 
-double calculate_current_estimate(double previous_estimate, double kalman_gain, double current_measurement)
+double calculate_current_estimate(double const previous_estimate, double const kalman_gain, double const current_measurement)
 {
-    double current_estimate = previous_estimate + kalman_gain * (current_measurement - previous_estimate);
-    return current_estimate;
+    return previous_estimate + kalman_gain * (current_measurement - previous_estimate);
 }
 
-double calculate_error_in_estimate(double kalman_gain, double previous_error_in_estimate)
+double calculate_error_in_estimate(double const kalman_gain, double const previous_error_in_estimate)
 {
     double error_in_estimate = (1 - kalman_gain) * previous_error_in_estimate;
     return error_in_estimate;
@@ -53,11 +51,11 @@ void print_kalman_filter(kalman_filter_t *filter)
 
 int main(int argc, char const *argv[])
 {
-    int i;
     double measurements[SIZE] = {75, 71, 70, 74};
     kalman_filter_t filter1 = {0.5, 68.0, 0, 2.0, 2.0, measurements[0], 4.0};
     printf("Initial condition...\n");
     print_kalman_filter(&filter1);
+    int i;
     for (i = 0; i < SIZE; i++)
     {
         printf("%d. measurement...\n", i);
