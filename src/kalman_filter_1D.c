@@ -26,8 +26,7 @@ double calculate_current_estimate(double const previous_estimate, double const k
 
 double calculate_error_in_estimate(double const kalman_gain, double const previous_error_in_estimate)
 {
-    double error_in_estimate = (1 - kalman_gain) * previous_error_in_estimate;
-    return error_in_estimate;
+    return (1 - kalman_gain) * previous_error_in_estimate;
 }
 
 void print_kalman_filter(kalman_filter_t *filter)
