@@ -9,4 +9,4 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_compile_options(-std=c++17 -Wpedantic)
 
 add_executable(${PROJECT_NAME}_c src/c/${PROJECT_NAME}.c)
-add_executable(${PROJECT_NAME}_cpp src/cpp/${PROJECT_NAME}.cpp)
+add_library(${PROJECT_NAME}_cpp src/cpp/src/${PROJECT_NAME}.cpp)
