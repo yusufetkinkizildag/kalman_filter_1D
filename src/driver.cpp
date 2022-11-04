@@ -22,7 +22,7 @@ namespace utility
         using B = typename std::remove_const_t<A>;
         using C = typename B::value_type;
         std::cout << '[';
-        std::copy(std::cbegin(estimations), std::cend(estimations) - 1, std::ostream_iterator<C>(std::cout, ", "));
+        std::copy(std::cbegin(estimations), std::cend(estimations), std::ostream_iterator<C>(std::cout, ", "));
         std::cout << "]\n";
     }};
 
