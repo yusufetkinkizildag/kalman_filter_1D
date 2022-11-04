@@ -1,7 +1,6 @@
 #include "cpp/include/kalman_filter_1D.hpp"
-#include <vector>
-#include <algorithm>
 #include <iostream>
+#include <iterator>
 
 namespace utility
 {
@@ -15,6 +14,16 @@ namespace utility
         std::cout << "previous_error_in_estimate   :" << state.previous_error_in_estimate << '\n';
         std::cout << "current_measurement          :" << state.current_measurement << '\n';
         std::cout << "error_in_measurement         :" << state.error_in_measurement << '\n';
+    }};
+
+    constexpr static auto print_estimations{[](auto const &estimations) noexcept
+    {
+        using A = typename std::remove_reference_t<decltype(estimations)>;
+        using B = typename std::remove_const_t<A>;
+        using C = typename B::value_type;
+        std::cout << '[';
+        std::copy(std::cbegin(estimations), std::cend(estimations) - 1, std::ostream_iterator<C>(std::cout, ", "));
+        std::cout << "]\n";
     }};
 
 } // namespace utility
@@ -60,6 +69,10 @@ int main(int argc, char const *argv[])
                                           .error_in_measurement{4.0}});
 
     utility::print_state(filter.get_state());
+    
+    auto const estimations{filter.update(measurements)};
+
+    utility::print_estimations(estimations);
 
     return 0;
 }
