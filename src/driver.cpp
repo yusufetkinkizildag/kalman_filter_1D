@@ -41,7 +41,7 @@ int main(int argc, char const *argv[])
                                                         .current_measurement{75.0},
                                                         .error_in_measurement{4.0}}};
 
-    std::vector<double> measurements{75.0, 71.0, 70.0, 74.0, 72.0, 72.0, 72.0, 72.0, 72.0, 72.0, 72.0, 72.0, 72.0};
+    std::vector<double> const measurements{75.0, 71.0, 70.0, 74.0, 72.0, 72.0, 72.0, 72.0, 72.0, 72.0, 72.0, 72.0, 72.0};
 
     std::for_each(std::cbegin(measurements), std::cend(measurements), [&filter](auto const current_measurement) noexcept
     {
