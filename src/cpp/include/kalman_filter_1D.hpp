@@ -1,6 +1,8 @@
 #pragma once
 
 #include <utility>
+#include <vector>
+#include <algorithm>
 
 namespace etkin
 {
@@ -26,6 +28,7 @@ namespace etkin
         void reset(KalmanFilterState const &) noexcept;
         void reset(KalmanFilterState &&) noexcept;
         double update(double const) noexcept;
+        std::vector<double> update(std::vector<double> const &) noexcept;
         KalmanFilterState get_state() const noexcept;
     };
 
