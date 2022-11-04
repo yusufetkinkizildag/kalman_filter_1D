@@ -17,6 +17,21 @@ namespace etkin
         return s.current_estimate;
     }
 
+    std::vector<double> KalmanFilter::update(std::vector<double> const &measurements) noexcept
+    {
+        std::vector<double> estimations(measurements.size());
+        auto &s{this->state};
+        std::transform(std::cbegin(measurements), std::cend(measurements), std::begin(estimations), [&s](auto const current_measurement) noexcept
+        {
+            s.current_measurement = current_measurement;
+            s.kalman_gain = s.error_in_estimate / (s.error_in_estimate + s.error_in_measurement);
+            s.current_estimate = s.previous_estimate + s.kalman_gain * (s.current_measurement - s.previous_estimate);
+            s.error_in_estimate = (1 - s.kalman_gain) * s.previous_error_in_estimate;
+            return s.current_estimate;
+        });
+        return estimations;
+    }
+
     KalmanFilterState KalmanFilter::get_state() const noexcept
     {
         return this->state;
