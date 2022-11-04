@@ -1,6 +1,5 @@
 # kalman_filter_1D
 
-
 Implementation of [Kalman Filter](https://en.wikipedia.org/wiki/Kalman_filter) in one dimension based on what I have learned from this [playlist](https://www.youtube.com/watch?v=CaCcOwJPytQ&list=PLX2gX-ftPVXU3oUFNATxGXY90AULiqnWT)
 
 
@@ -63,13 +62,47 @@ $E_{est_{t-1}}$ stands for `previous_error_in_estimate`
 $$E_{est} = (1 - K) E_{est_{t-1}}$$
 
 
-## kalman_filter_1D.cpp
+## kalman_filter_1D.hpp and kalman_filter_1D.cpp
+Defines the types. One is a struct that holds the filter's state and the second is the filter itself which holds the functions and a state object.
 
-## kalman_filter_1D.hpp
+The state object is consisting of double values which are mentioned in the [Formulas](#formulas) section and nothing more.
+
+The filter object holds the state object privately to prevent the users intervening unnecessarily or accidentally.
+
+All the funtctions are non throwing including two constructors that take state objects either as an lvalue reference or an rvalue reference.
+
+The filter has 3 important functions. `update`, `reset` and `get_state`.
+
+`update` has two overloads. One of them takes a single double value as const which represents the latest measurement value given to the system. Outputs a double value which represents the current estimate after the latest measurement has been processed.
+
+The current estimate is calculated according to formulas above.
+
+The second overload is the same but for vector of double values which represents the measurements. It makes the same calculations as the single double value version of the function but for all the values in the input vector. The estimation after each measurement is pushed to a vector which then gets returned as the estimations. If the input vector is empty the returned vector will be empty.
+
+`reset` has two overloads that either copies the given state object to filter's state object or moves it using [std::move](https://en.cppreference.com/w/cpp/utility/move). As the name suggest it is used to reset the state of the filter to desired values.
+
+`get_state` is a simple getter function.
+
+
+## kalman_filter_1D.h
+
+Holds filter's type definiton and the function signatures.
 
 ## kalman_filter_1D.c
 
-## kalman_filter_1D.h
+The function and variable names are direct translations of the formulas above.
+
+
+## Notes
+Please do not hesitate to reach me for the notes below. Any suggestion, solution or improvement advice will be welcome.
+
+- I couldn't find a good way to overload the `update` function to take an rvalue reference of vector of double. I'm not even sure that it is a good idea. I don't know what happens if I can call the const lvalue reference overload with rvalue. Is it a good practice to do so or should I overload it with an rvalue reference and explicitly move it using [std::move](https://en.cppreference.com/w/cpp/utility/move) to a temporary local variable? What are the possible scenarios and what are the advantages/disadvantages of them?
+
+- I couldn't bind the `update` function that takes a single value using [std::bind](https://en.cppreference.com/w/cpp/utility/functional/bind) so I ended up in code duplication in two overloads of the same function.
+
+- Is there a way to get rid of the designated initializer warnings without using the c++20 standard when compiling?
+
+- How to get rid of the `command line option ‘-std=c++17’ is valid for C++/ObjC++ but not for C` warning?
 
 ## Compiler
 I'm using docker desktop on MacOS Ventura 13.0. So the `g++` on the system outputs the following lines.
