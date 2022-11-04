@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(kalman_filter_1D LANGUAGES C CXX)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_RERQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
