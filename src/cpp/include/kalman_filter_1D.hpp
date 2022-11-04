@@ -20,14 +20,13 @@ namespace etkin
     {
     private:
         KalmanFilterState state;
-        void calculate_kalman_gain() noexcept;
-        void calculate_current_estimate() noexcept;
-        void calculate_error_in_estimate() noexcept;
     public:
         KalmanFilter(KalmanFilterState const &) noexcept;
         KalmanFilter(KalmanFilterState &&) noexcept;
+        void reset(KalmanFilterState const &) noexcept;
+        void reset(KalmanFilterState &&) noexcept;
         double update(double const) noexcept;
-        KalmanFilterState get_current_state() const noexcept;
+        KalmanFilterState get_state() const noexcept;
     };
 
 }
